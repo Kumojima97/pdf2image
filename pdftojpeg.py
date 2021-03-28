@@ -67,6 +67,7 @@ def convert(pdfpath,pdfname,outputDir):
 
 
 def selectfile(directorypdf,outputDir):
+    process_start = time.process_time()
     convertcounter = 0
     for filename in os.listdir(directorypdf):
         if filename.endswith(".pdf"):
@@ -76,7 +77,10 @@ def selectfile(directorypdf,outputDir):
         else:
             continue
 
-    print("\nConvert ",pdfcounter," File Completed.")
+    process_stop = time.process_time()
+    processtime = process_stop - process_start
+    print("\nProcess Time : ",processtime)
+    print("Convert ",pdfcounter," File Completed.")
     confirm = input("Continue?  Y/n : ").lower()
     if confirm in yes:
         start()
