@@ -49,7 +49,7 @@ def convert(pdfpath,pdfname,outputDir):
         os.makedirs(outputDir)
 
     counter = 0
-    name = str(os.path.splitext(pdfname)[0])
+    name = str(os.path.splitext(pdfname)[0])+"_"
     pages = convert_from_path(pdfpath,output_folder=outputDir,output_file=name,dpi=500,fmt='jpeg',thread_count=4)
     for page in pages:
         counter = counter + 1
