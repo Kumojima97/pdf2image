@@ -48,15 +48,22 @@ def convert(pdfpath,pdfname,outputDir):
     if not os.path.exists(outputDir):
         os.makedirs(outputDir)
 
-    pages = convert_from_path(pdfpath,dpi=500)
     counter = 0
+    name = str(os.path.splitext(pdfname)[0])
+    pages = convert_from_path(pdfpath,output_folder=outputDir,output_file=name,dpi=500,fmt='jpeg',thread_count=4)
     for page in pages:
         counter = counter + 1
-        myfile = outputDir + str(os.path.splitext(pdfname)[0]) +'-'+ str(counter) +'.jpg'
-        page.save(myfile, "JPEG")
-        print("Save Image ",myfile)
+        print("Save Image ",str(page.filename))
     print("Convert ",pdfname,"Completed. Image Total",counter)
 
+    # pages = convert_from_path(pdfpath,dpi=500)
+    # counter = 0
+    # for page in pages:
+    #     counter = counter + 1
+    #     myfile = outputDir + str(os.path.splitext(pdfname)[0]) +'-'+ str(counter) +'.jpg'
+    #     page.save(myfile, "JPEG")
+    #     print("Save Image ",myfile)
+    # print("Convert ",pdfname,"Completed. Image Total",counter)
 
 
 def selectfile(directorypdf,outputDir):
