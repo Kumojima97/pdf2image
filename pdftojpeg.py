@@ -1,13 +1,15 @@
 #pip install pdf2image
 #http://blog.alivate.com.au/poppler-windows/
 
-from pdf2image import convert_from_path
+from pdf2image import convert_from_path,convert_from_bytes
 import os
 import sys
 import time
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+
+poppler_path = r"C:\poppler\Library\bin"
 
 yes = {'yes','y'}
 no = {'no','n'}
@@ -50,13 +52,13 @@ def convert(pdfpath,pdfname,outputDir):
 
     counter = 0
     name = str(os.path.splitext(pdfname)[0])+"_"
-    pages = convert_from_path(pdfpath,output_folder=outputDir,output_file=name,dpi=500,fmt='jpeg',thread_count=4)
+    pages = convert_from_path(pdfpath,output_folder=outputDir,output_file=name,dpi=500,fmt='jpeg',thread_count=4,paths_only=True,use_cropbox=True,poppler_path=poppler_path)
     for page in pages:
         counter = counter + 1
-        print("Save Image ",str(page.filename))
+        print("Save Image ",page)
     print("Convert ",pdfname,"Completed. Image Total",counter)
 
-    # pages = convert_from_path(pdfpath,dpi=500)
+    # pages = convert_from_path(pdfpath,dpi=500,thread_count=4,single_file=True,first_page=2)
     # counter = 0
     # for page in pages:
     #     counter = counter + 1
@@ -90,6 +92,7 @@ def selectfile(directorypdf,outputDir):
 
 def checkPathPDF(directorypdf):
     global pdfcounter
+    pdfcounter = 0
     for filename in os.listdir(directorypdf):
         if filename.endswith(".pdf"):
             pdfcounter = pdfcounter+1
@@ -98,7 +101,12 @@ def checkPathPDF(directorypdf):
             continue
     print("File PDF Total : ",pdfcounter)
         
-start()
+try:
+    start()
+except Exception as ex:
+    print("\nError :",ex)
+    input("Press Enter key to exit...")
+
 
 # gui = Tk()
 # gui.geometry("800x500")
